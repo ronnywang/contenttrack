@@ -54,6 +54,7 @@ class TrackRow extends Pix_Table_Row
     {
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($curl, CURLOPT_URL, $this->url);
         return curl_exec($curl);
     }
