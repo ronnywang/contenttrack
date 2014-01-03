@@ -7,6 +7,7 @@
             <td>追查內容</td>
             <td>最近變動時間</td>
             <td>上次追查時間</td>
+            <td>追查頻率</td>
             <td>數值</td>
             <td>動作</td>
         </tr>
@@ -19,6 +20,7 @@
         <td><?= $this->escape($track->options) ?></td>
         <td><?= date('c', $track->getLatestLog()->time) ?></td>
         <td><?= date('c', $track->tracked_at) ?></td>
+        <td><?= $this->Escape(Track::getTrackPeriods()[$track->track_period]) ?></td>
         <td><?= $this->escape($track->getLatestLog()->content) ?></td>
         <td>
             <a href="/?id=<?= $track->id ?>">修改</a>
@@ -30,6 +32,11 @@
 <form method="post" action="<?= $this->track ? "/index/edittrack?id={$this->track->id}" : "/index/addtrack" ?>">
     <input type="hidden" name="sToken" value="TODO">
     網址: <input type="text" name="url" value="<?= $this->Escape($this->track->url) ?>"><br>
+    追蹤頻率：<select name="track-period">
+        <?php foreach (Track::getTrackPeriods() as $id => $name) { ?>
+        <option value="<?= $id ?>"<?= ($this->track and $this->track->track_period == $id) ? ' selected="selected"' : '' ?>><?= $this->escape($name) ?></option>
+        <?php } ?>
+    </select>
     追蹤方式：<select name="track-way">
         <?php foreach (Track::getTrackWays() as $id => $name) { ?>
         <option value="<?= $id ?>"<?= ($this->track and $this->track->getWay() == $id) ? ' selected="selected"' : '' ?>><?= $this->escape($name) ?></option>

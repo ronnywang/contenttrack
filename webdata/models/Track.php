@@ -80,6 +80,16 @@ class Track extends Pix_Table
         $this->_columns['tracked_at'] = array('type' => 'int');
         $this->_columns['url'] = array('type' => 'varchar', 'size' => 255);
         $this->_columns['options'] = array('type' => 'text');
+        // 0-每日, 1-每五分鐘
+        $this->_columns['track_period'] = array('type' => 'tinyint');
+    }
+
+    public static function getTrackPeriods()
+    {
+        return array(
+            0 => '每日',
+            1 => '每五分鐘',
+        );
     }
 
     public static function getTrackWays()
