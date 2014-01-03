@@ -4,6 +4,10 @@ class TrackRow extends Pix_Table_Row
 {
     public function needTrack()
     {
+        // 最近修改過的話直接去抓不用管 tracked_at
+        if ($this->updated_at > $this->tracked_at) {
+            return true;
+        }
         if (0 == $this->track_period) { // 每日
             $time = 86400;
         } elseif (1 == $this->track_period) { // 每五分鐘
@@ -89,6 +93,7 @@ class Track extends Pix_Table
         $this->_columns['id'] = array('type' => 'int', 'auto_increment' => true);
         $this->_columns['title'] = array('type' => 'text');
         $this->_columns['created_at'] = array('type' => 'int');
+        $this->_columns['updated_at'] = array('type' => 'int');
         $this->_columns['tracked_at'] = array('type' => 'int');
         $this->_columns['url'] = array('type' => 'varchar', 'size' => 255);
         $this->_columns['options'] = array('type' => 'text');

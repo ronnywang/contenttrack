@@ -23,6 +23,7 @@ class IndexController extends Pix_Controller
         $track->update(array(
             'url' => strval($_POST['url']),
             'track_period' => intval($_POST['track_period']),
+            'updated_at' => time(),
             'title' => strval($_POST['title']),
             'options' => json_encode(array(
                 'track_way' => intval($_POST['track-way']),
