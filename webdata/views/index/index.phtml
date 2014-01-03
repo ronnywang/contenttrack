@@ -1,0 +1,39 @@
+<?= $this->partial('/common/header.phtml', $this) ?>
+<table class="table">
+    <thead>
+        <tr>
+            <td>ID</td>
+            <td>網址</td>
+            <td>追查內容</td>
+            <td>上次追查時間</td>
+            <td>數值</td>
+            <td>動作</td>
+        </tr>
+    </thead>
+    <tbody>
+    <?php foreach (Track::search(1) as $track) { ?>
+    <tr>
+        <td><?= $track->id ?></td>
+        <td><?= $this->escape($track->url) ?></td>
+        <td><?= $this->escape($track->options) ?></td>
+        <td><?= date('c', $track->tracked_at) ?></td>
+        <td>TODO</td>
+        <td>
+            <a href="/?id=<?= $track->id ?>">修改</a>
+        </td>
+    </tr>
+    <?php } ?>
+    </tbody>
+</table>
+<form method="post" action="<?= $this->track ? "/index/edittrack?id={$this->track->id}" : "/index/addtrack" ?>">
+    <input type="hidden" name="sToken" value="TODO">
+    網址: <input type="text" name="url" value="<?= $this->Escape($this->track->url) ?>"><br>
+    追蹤方式：<select name="track-way">
+        <?php foreach (Track::getTrackWays() as $id => $name) { ?>
+        <option value="<?= $id ?>"<?= ($this->track and $this->track->getWay() == $id) ? ' selected="selected"' : '' ?>><?= $this->escape($name) ?></option>
+        <?php } ?>
+    </select><br>
+    追蹤內容：<input type="text" name="track-content" value="<?= $this->escape($this->track ? $this->track->getTrackContent() : '') ?>">
+    <button type="submit">送出</button>
+</form>
+<?= $this->partial('/common/footer.phtml', $this) ?>
