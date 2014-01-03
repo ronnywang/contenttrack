@@ -2,6 +2,17 @@
 
 class TrackRow extends Pix_Table_Row
 {
+    public function needTrack()
+    {
+        if (0 == $this->track_period) { // 每日
+            $time = 86400;
+        } elseif (1 == $this->track_period) { // 每五分鐘
+            $time = 300;
+        }
+
+        return time() > $this->tracked_at + $time;
+    }
+
     public function getLatestLog()
     {
         return TrackLog::search(array('track_id' => $this->id))->max('time');
