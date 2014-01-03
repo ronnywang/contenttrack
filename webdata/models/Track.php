@@ -2,6 +2,22 @@
 
 class TrackRow extends Pix_Table_Row
 {
+    public function getLatestLog()
+    {
+        return TrackLog::search(array('track_id' => $this->id))->max('time')->content;
+    }
+
+    public function updateLog($content)
+    {
+        if ($content != $this->getLatestLog()) {
+            TrackLog::insert(array(
+                'track_id' => $this->id,
+                'time' => time(),
+                'content' => $content,
+            ));
+        }
+    }
+
     public function getTrackContent()
     {
         $options = json_decode($this->options);
