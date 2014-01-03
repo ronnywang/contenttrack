@@ -4,12 +4,12 @@ class TrackRow extends Pix_Table_Row
 {
     public function getLatestLog()
     {
-        return TrackLog::search(array('track_id' => $this->id))->max('time')->content;
+        return TrackLog::search(array('track_id' => $this->id))->max('time');
     }
 
     public function updateLog($content)
     {
-        if ($content != $this->getLatestLog()) {
+        if ($content != $this->getLatestLog()->content) {
             TrackLog::insert(array(
                 'track_id' => $this->id,
                 'time' => time(),

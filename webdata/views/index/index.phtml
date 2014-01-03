@@ -5,6 +5,7 @@
             <td>ID</td>
             <td>網址</td>
             <td>追查內容</td>
+            <td>最近變動時間</td>
             <td>上次追查時間</td>
             <td>數值</td>
             <td>動作</td>
@@ -16,8 +17,9 @@
         <td><?= $track->id ?></td>
         <td><?= $this->escape($track->url) ?></td>
         <td><?= $this->escape($track->options) ?></td>
+        <td><?= date('c', $track->getLatestLog()->time) ?></td>
         <td><?= date('c', $track->tracked_at) ?></td>
-        <td><?= $this->escape($track->getLatestLog()) ?></td>
+        <td><?= $this->escape($track->getLatestLog()->content) ?></td>
         <td>
             <a href="/?id=<?= $track->id ?>">修改</a>
         </td>
