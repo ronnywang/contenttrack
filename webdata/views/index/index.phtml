@@ -17,7 +17,7 @@
         <td><?= $this->escape($track->url) ?></td>
         <td><?= $this->escape($track->options) ?></td>
         <td><?= date('c', $track->tracked_at) ?></td>
-        <td>TODO</td>
+        <td><?= $this->escape($track->getLatestLog()) ?></td>
         <td>
             <a href="/?id=<?= $track->id ?>">修改</a>
         </td>
