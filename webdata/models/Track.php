@@ -48,6 +48,21 @@ class TrackRow extends Pix_Table_Row
             }
 
             return array('found', $matches[1]);
+        case 3: // 檔案 MD5
+            $curl = curl_init();
+            $download_fp = tmpfile();
+            curl_setopt($curl, CURLOPT_URL, $this->url);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_FILE, $download_fp);
+            curl_exec($curl);
+            curl_close($curl);
+            fflush($download_fp);
+
+            $filepath = stream_get_meta_data($download_fp)['uri'];
+            return array(
+                'md5' => md5_file($filepath), 
+                'size' => filesize($filepath),
+            );
         }
     }
 }
@@ -72,6 +87,7 @@ class Track extends Pix_Table
         return array(
             1 => '純文字 regex 判斷',
             2 => 'HTML regex 判斷',
+            3 => '檔案內容',
         );
     }
 }
