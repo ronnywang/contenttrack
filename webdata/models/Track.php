@@ -30,6 +30,11 @@ class TrackRow extends Pix_Table_Row
                 'time' => time(),
                 'content' => $content,
             ));
+
+            NotifyLib::alert(
+                'ContentTrack發現網頁變動: ' . $this->title,
+                "標題: {$this->title}\n內容：{$content}"
+            );
         }
     }
 
