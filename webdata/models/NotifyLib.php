@@ -29,6 +29,5 @@ class NotifyLib
                 'Body.Text.Data' => $body,
             )
         );
-        var_dump($ret);
     }
 }
