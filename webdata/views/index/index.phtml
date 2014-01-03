@@ -36,4 +36,11 @@
     追蹤內容：<input type="text" name="track-content" value="<?= $this->escape($this->track ? $this->track->getTrackContent() : '') ?>">
     <button type="submit">送出</button>
 </form>
+<?php if ($this->track) { ?>
+<ol>
+    <?php foreach (TrackLog::search(array('track_id' => $this->track->id))->order('time DESC') as $track_log) { ?>
+    <li><?= date('c', $track_log->time) ?>: <code><?= $this->escape($track_log->content) ?></code></li>
+    <?php } ?>
+</ol>
+<?php } ?>
 <?= $this->partial('/common/footer.phtml', $this) ?>
