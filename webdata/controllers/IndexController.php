@@ -22,6 +22,8 @@ class IndexController extends Pix_Controller
 
         $track->update(array(
             'url' => strval($_POST['url']),
+            'track_period' => intval($_POST['track_period']),
+            'title' => strval($_POST['title']),
             'options' => json_encode(array(
                 'track_way' => intval($_POST['track-way']),
                 'track_content' => strval($_POST['track-content']),
@@ -41,6 +43,8 @@ class IndexController extends Pix_Controller
         Track::insert(array(
             'created_at' => time(),
             'tracked_at' => 0,
+            'track_period' => intval($_POST['track_period']),
+            'title' => strval($_POST['title']),
             'url' => strval($_POST['url']),
             'options' => json_encode(array(
                 'track_way' => intval($_POST['track-way']),

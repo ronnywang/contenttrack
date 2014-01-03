@@ -16,10 +16,13 @@
     <?php foreach (Track::search(1) as $track) { ?>
     <tr>
         <td><?= $track->id ?></td>
-        <td><?= $this->escape($track->url) ?></td>
+        <td>
+            <h3><?= $this->escape($track->title) ?></h3>
+            <small><?= $this->escape($track->url) ?></small>
+        </td>
         <td><?= $this->escape($track->options) ?></td>
-        <td><?= date('c', $track->getLatestLog()->time) ?></td>
-        <td><?= date('c', $track->tracked_at) ?></td>
+        <td><?= $this->partial('/helper/counttime.phtml', arraY('time' => $track->getLatestLog()->time)) ?></td>
+        <td><?= $this->partial('/helper/counttime.phtml', arraY('time' => $track->tracked_at)) ?></td>
         <td><?= $this->Escape(Track::getTrackPeriods()[$track->track_period]) ?></td>
         <td><?= $this->escape($track->getLatestLog()->content) ?></td>
         <td>
@@ -31,8 +34,9 @@
 </table>
 <form method="post" action="<?= $this->track ? "/index/edittrack?id={$this->track->id}" : "/index/addtrack" ?>">
     <input type="hidden" name="sToken" value="TODO">
+    描述：<input type="text" name="title" value="<?= $this->escape($this->track->title) ?>"></br>
     網址: <input type="text" name="url" value="<?= $this->Escape($this->track->url) ?>"><br>
-    追蹤頻率：<select name="track-period">
+    追蹤頻率：<select name="track_period">
         <?php foreach (Track::getTrackPeriods() as $id => $name) { ?>
         <option value="<?= $id ?>"<?= ($this->track and $this->track->track_period == $id) ? ' selected="selected"' : '' ?>><?= $this->escape($name) ?></option>
         <?php } ?>
