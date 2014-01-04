@@ -18,7 +18,7 @@
         <td><?= $track->id ?></td>
         <td>
             <h3><?= $this->escape($track->title) ?></h3>
-            <small><?= $this->escape(substr($track->url, 0, 32)) ?></small>
+            <small><a href="<?= $this->escape($track->url) ?>"><?= $this->escape(substr($track->url, 0, 32)) ?></a></small>
         </td>
         <td>
             <ul>
