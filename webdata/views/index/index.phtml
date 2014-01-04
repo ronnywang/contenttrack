@@ -20,11 +20,24 @@
             <h3><?= $this->escape($track->title) ?></h3>
             <small><?= $this->escape(substr($track->url, 0, 32)) ?></small>
         </td>
-        <td><?= $this->escape($track->options) ?></td>
+        <td>
+            <ul>
+                <?php foreach (json_decode($track->options) as $key => $value) { ?>
+                <li><?= $this->escape($key) ?>: <?= $this->escape($value) ?></li>
+                <?php } ?>
+            </ul>
+        </td>
+
         <td><?= $this->partial('/helper/counttime.phtml', arraY('time' => $track->getLatestLog()->time)) ?></td>
         <td><?= $this->partial('/helper/counttime.phtml', arraY('time' => $track->tracked_at)) ?></td>
         <td><?= $this->Escape(Track::getTrackPeriods()[$track->track_period]) ?></td>
-        <td><?= $this->escape($track->getLatestLog()->content) ?></td>
+        <td>
+            <ol>
+                <?php foreach (json_decode($track->getLatestLog()->content) as $row) {?>
+                <li><?= $this->escape(substr($row, 0, 32)) ?></li>
+                <?php } ?>
+            </ol>
+        </td>
         <td>
             <a href="/?id=<?= $track->id ?>">修改</a>
         </td>
