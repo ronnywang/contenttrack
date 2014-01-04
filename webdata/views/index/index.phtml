@@ -18,7 +18,7 @@
         <td><?= $track->id ?></td>
         <td>
             <h3><?= $this->escape($track->title) ?></h3>
-            <small><?= $this->escape($track->url) ?></small>
+            <small><?= $this->escape(substr($track->url, 0, 32)) ?></small>
         </td>
         <td><?= $this->escape($track->options) ?></td>
         <td><?= $this->partial('/helper/counttime.phtml', arraY('time' => $track->getLatestLog()->time)) ?></td>
