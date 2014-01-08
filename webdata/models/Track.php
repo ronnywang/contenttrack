@@ -83,10 +83,14 @@ class TrackRow extends Pix_Table_Row
             fflush($download_fp);
 
             $filepath = stream_get_meta_data($download_fp)['uri'];
-            return array(
+            $ret = array(
                 'md5' => md5_file($filepath), 
                 'size' => filesize($filepath),
             );
+            if ($this->getTrackContent()) {
+                $ret['content'] = file_get_contents($filepath);
+            }
+            return $ret;
         }
     }
 }
