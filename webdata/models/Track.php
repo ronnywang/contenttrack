@@ -33,7 +33,7 @@ class TrackRow extends Pix_Table_Row
                 'content' => $content,
             ));
 
-            $content = json_encode(json_decode($content), JSON_UNESCAPED_UNICODE);
+            $content = json_encode(json_decode($content), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 
             NotifyLib::alert(
                 'ContentTrack發現網頁變動: ' . $this->title,
