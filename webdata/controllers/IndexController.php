@@ -54,4 +54,17 @@ class IndexController extends Pix_Controller
         ));
         return $this->redirect('/');
     }
+
+    public function checkAction()
+    {
+        if (!$track = Track::Find(intval($_GET['id']))) {
+            return $this->redirect('/');
+        }
+
+        $track->update(array(
+            'tracked_at' => time()
+        ));
+        $track->updateLog(json_encode($track->trackContent()));
+        return $this->redirect('/');
+    }
 }
