@@ -47,7 +47,7 @@
     </tbody>
 </table>
 <form method="post" action="<?= $this->track ? "/index/edittrack?id={$this->track->id}" : "/index/addtrack" ?>">
-    <input type="hidden" name="sToken" value="TODO">
+    <input type="hidden" name="sToken" value="<?= $this->escape($this->sToken) ?>">
     描述：<input type="text" name="title" value="<?= $this->escape($this->track->title) ?>"></br>
     網址: <input type="text" name="url" value="<?= $this->Escape($this->track->url) ?>"><br>
     追蹤頻率：<select name="track_period">

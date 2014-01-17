@@ -5,6 +5,11 @@ class IndexController extends Pix_Controller
     public function init()
     {
         $this->view->user = ($user_id = Pix_Session::get('user_id')) ? User::find(intval($user_id)) : null;
+        if (!$sToken = Pix_Session::get('sToken')) {
+            $sToken = crc32(uniqid());
+            Pix_Session::set('sToken', $sToken);
+        }
+        $this->view->sToken = $sToken;
     }
 
     public function indexAction()
@@ -16,8 +21,11 @@ class IndexController extends Pix_Controller
 
     public function edittrackAction()
     {
-        // TODO: check sToken
         if (!$_POST) {
+            return $this->redirect('/');
+        }
+
+        if ($_POST['sToken'] != $this->view->sToken) {
             return $this->redirect('/');
         }
 
@@ -41,8 +49,10 @@ class IndexController extends Pix_Controller
 
     public function addtrackAction()
     {
-        // TODO: check sToken
         if (!$_POST) {
+            return $this->redirect('/');
+        }
+        if ($_POST['sToken'] != $this->view->sToken) {
             return $this->redirect('/');
         }
 
