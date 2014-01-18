@@ -19,6 +19,34 @@ class IndexController extends Pix_Controller
         }
     }
 
+    public function toggletrackAction()
+    {
+        if (!$_POST) {
+            return $this->redirect('/');
+        }
+
+        if ($_POST['sToken'] != $this->view->sToken) {
+            return $this->redirect('/');
+        }
+
+        if (!$track = Track::find(intval($_GET['id']))) {
+            return $this->redirect('/');
+        }
+
+        try {
+            TrackUser::insert(array(
+                'track_id' => $track->id,
+                'user_id' => $this->view->user->user_id,
+            ));
+        } catch (Pix_Table_DuplicateException $e) {
+            TrackUser::search(array(
+                'track_id' => $track->id,
+                'user_id' => $this->view->user->user_id,
+            ))->delete();
+        }
+
+        return $this->redirect('/?id=' . $track->id . '#track-user');
+    }
     public function edittrackAction()
     {
         if (!$_POST) {
