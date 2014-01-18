@@ -2,6 +2,14 @@
 
 class TrackRow extends Pix_Table_Row
 {
+    public function isTrackBy($user)
+    {
+        return TrackUser::search(array(
+            'track_id' => $this->id,
+            'user_id' => intval($user->user_id),
+        ))->count();
+    }
+
     public function needTrack()
     {
         // 最近修改過的話直接去抓不用管 tracked_at
