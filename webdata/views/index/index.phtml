@@ -32,11 +32,11 @@ $track_ways = Track::getTrackWays();
         <td><?= $this->partial('/helper/counttime.phtml', arraY('time' => $track->tracked_at)) ?></td>
         <td><?= $this->Escape(Track::getTrackPeriods()[$track->track_period]) ?></td>
         <td>
-            <ol>
-                <?php foreach (json_decode($track->getLatestLog()->content) as $row) {?>
-                <li><?= $this->escape(substr($row, 0, 32)) ?></li>
-                <?php } ?>
-            </ol>
+            <?php $log = json_decode($track->getLatestLog()->content) ?>
+            <div title="<?= $this->escape(json_encode($log, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)) ?>">
+                HTTP:<?= intval($log->http_code) ?><br>
+                status: <?= $this->escape($log->status) ?>
+            </div>
         </td>
         <td>
             <form method="post" action="/index/toggletrack?id=<?= $track->id ?>">
