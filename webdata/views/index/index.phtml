@@ -1,3 +1,6 @@
+<?php
+$track_ways = Track::getTrackWays();
+?>
 <?= $this->partial('/common/header.phtml', $this) ?>
 <table class="table">
     <thead>
@@ -22,9 +25,7 @@
         </td>
         <td>
             <ul>
-                <?php foreach (json_decode($track->options) as $key => $value) { ?>
-                <li><?= $this->escape($key) ?>: <?= $this->escape($value) ?></li>
-                <?php } ?>
+                <span title="<?= $this->escape($track->getTrackContent()) ?>"><?= $this->escape($track_ways[$track->getWay()]) ?></span>
             </ul>
         </td>
 
