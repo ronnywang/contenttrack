@@ -63,33 +63,50 @@ class TrackRow extends Pix_Table_Row
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
         curl_setopt($curl, CURLOPT_URL, $this->url);
-        return curl_exec($curl);
+        $content = curl_exec($curl);
+        $info = curl_getinfo($curl);
+        return array(
+            'http_code' => $info['http_code'],
+            'content' => $content,
+        );
     }
 
     public function trackContent()
     {
         switch ($this->getWay()) {
         case 2: // 追蹤 HTML + regex
-            $content = $this->getHTML();
-            if (!preg_match($this->getTrackContent(), $content, $matches)) {
-                return array('notfound');
+            $obj = $this->getHTML();
+            if (!preg_match($this->getTrackContent(), $obj['content'], $matches)) {
+                return array(
+                    'http_code' => $obj['http_code'],
+                    'status' => 'notfound',
+                );
             }
 
-            return array('found', $matches[1]);
+            return array(
+                'http_code' => $obj['http_code'],
+                'status' => 'found',
+                'data' => $matches[1],
+            );
         case 3: // 檔案 MD5
             $curl = curl_init();
             $download_fp = tmpfile();
             curl_setopt($curl, CURLOPT_URL, $this->url);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($curl, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
             curl_setopt($curl, CURLOPT_FILE, $download_fp);
             curl_exec($curl);
+            $info = curl_getinfo($curl);
             curl_close($curl);
             fflush($download_fp);
 
             $filepath = stream_get_meta_data($download_fp)['uri'];
             $ret = array(
+                'http_code' => $info['http_code'],
+                'status' => filesize($filepath) ? 'success' : 'failed',
                 'md5' => md5_file($filepath), 
                 'size' => filesize($filepath),
             );

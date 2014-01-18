@@ -32,15 +32,16 @@ foreach ($user_logs as $user_id => $logs) {
     if (!$user = User::find(intval($user_id))) {
         continue;
     }
-    $mail = substr($user->user_mail, 9);
+    $mail = substr($user->user_name, 9);
     foreach ($logs as $log) {
         $content .= "標題: {$log['track']->title}\n";
         $content .= "原始網址: {$log['track']->url}\n";
         $content .= "紀錄網址: http://contenttrack.ronny.tw/?id={$log['track']->id}#track-logs\n";
-        $log = json_encode(json_decode($log), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-        $content .= "內容: {$log}\n";
+        $log['content'] = json_encode(json_decode($log['content']), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+        $content .= "內容: {$log['content']}\n";
         $content .= "==============================================\n";
     }
+    
     NotifyLib::alert(
         $title,
         $content,
