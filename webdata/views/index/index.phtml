@@ -20,7 +20,7 @@ $track_ways = Track::getTrackWays();
     <tr>
         <td><?= $track->id ?></td>
         <td>
-            <div><?= $this->escape($track->title) ?></div>
+            <div><a href="/?id=<?= $track->id ?>#track-log"><?= $this->escape($track->title) ?></a></div>
             <small><a href="<?= $this->escape($track->url) ?>"><?= $this->escape(substr($track->url, 0, 32)) ?></a></small>
         </td>
         <td>
@@ -63,7 +63,8 @@ $track_ways = Track::getTrackWays();
     <button type="submit">送出</button>
 </form>
 <?php if ($this->track) { ?>
-<ol>
+<h1>變動紀錄</h1>
+<ol id="track-log">
     <?php foreach (TrackLog::search(array('track_id' => $this->track->id))->order('time DESC') as $track_log) { ?>
     <li><?= date('c', $track_log->time) ?>: <code><?= $this->escape($track_log->content) ?></code></li>
     <?php } ?>
