@@ -41,7 +41,6 @@ class TrackRow extends Pix_Table_Row
                 'content' => $content,
             ));
 
-            $content = json_encode(json_decode($content), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
             return $content;
         }
         return false;
