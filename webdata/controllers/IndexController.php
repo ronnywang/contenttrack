@@ -5,6 +5,10 @@ class IndexController extends Pix_Controller
     public function init()
     {
         $this->view->user = ($user_id = Pix_Session::get('user_id')) ? User::find(intval($user_id)) : null;
+        if (!$this->view->user) {
+            return $this->redraw('/index/empty.phtml');
+        }
+
         if (!$sToken = Pix_Session::get('sToken')) {
             $sToken = crc32(uniqid());
             Pix_Session::set('sToken', $sToken);
