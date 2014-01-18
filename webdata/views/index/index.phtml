@@ -46,14 +46,14 @@ $track_ways = Track::getTrackWays();
             </form>
         </td>
         <td>
-            <a href="/?id=<?= $track->id ?>">修改</a>
+            <a href="/?id=<?= $track->id ?>#edit-track">修改</a>
             <a href="/index/check?id=<?= $track->id ?>">立刻檢查</a>
         </td>
     </tr>
     <?php } ?>
     </tbody>
 </table>
-<form method="post" action="<?= $this->track ? "/index/edittrack?id={$this->track->id}" : "/index/addtrack" ?>">
+<form method="post" action="<?= $this->track ? "/index/edittrack?id={$this->track->id}" : "/index/addtrack" ?>" id="edit-track">
     <input type="hidden" name="sToken" value="<?= $this->escape($this->sToken) ?>">
     描述：<input type="text" name="title" value="<?= $this->escape($this->track->title) ?>"></br>
     網址: <input type="text" name="url" value="<?= $this->Escape($this->track->url) ?>"><br>
