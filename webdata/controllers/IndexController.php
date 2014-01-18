@@ -66,6 +66,7 @@ class IndexController extends Pix_Controller
             return $this->redirect('/');
         }
 
+        $old_values = $track->toArray();
         $track->update(array(
             'url' => strval($_POST['url']),
             'track_period' => intval($_POST['track_period']),
@@ -76,8 +77,24 @@ class IndexController extends Pix_Controller
                 'track_content' => strval($_POST['track-content']),
             )),
         ));
+        $new_values = $track->toArray();
 
-        return $this->redirect('/');
+        $title = "ContentTrack 您追蹤中的設定被修改: " . $track->title;
+        $content = "網址: http://contenttrack.ronny.tw/?id={$track->id}\n";
+        $content .= "修改人: " . $this->biew->user->user_name . "\n";
+        $content .= "原值: " . json_encode($old_values, JSON_PRETTY_PRINT |JSON_UNESCAPED_UNICODE) . "\n";
+        $content .= "新值: " . json_encode($new_values, JSON_PRETTY_PRINT |JSON_UNESCAPED_UNICODE) . "\n";
+
+        foreach (TrackUser::search(array('track_id' => $track->id)) as $track_user) {
+            $mail = substr($track_user->user->user_name, 9);
+            NotifyLib::alert(
+                $title,
+                $content,
+                $mail
+            );
+        }
+
+        return $this->redirect('/?id=' . $track->id . '#edit-track');
     }
 
     public function addtrackAction()
