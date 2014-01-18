@@ -110,9 +110,9 @@ class IndexController extends Pix_Controller
         }
 
         $track->update(array(
-            'tracked_at' => time()
+            'tracked_at' => 0,
         ));
-        $track->updateLog(json_encode($track->trackContent()));
+        Track::updateTrack();
         return $this->redirect('/');
     }
 }
