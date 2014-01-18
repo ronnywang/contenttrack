@@ -9,5 +9,7 @@ class TrackUser extends Pix_Table
 
         $this->_columns['track_id'] = array('type' => 'int');
         $this->_columns['user_id'] = array('type' => 'int');
+
+        $this->_relations['user'] = array('rel' => 'has_one', 'type' => 'User', 'foreign_key' => 'user_id');
     }
 }
