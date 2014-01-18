@@ -20,13 +20,11 @@ $track_ways = Track::getTrackWays();
     <tr>
         <td><?= $track->id ?></td>
         <td>
-            <h3><?= $this->escape($track->title) ?></h3>
+            <div><?= $this->escape($track->title) ?></div>
             <small><a href="<?= $this->escape($track->url) ?>"><?= $this->escape(substr($track->url, 0, 32)) ?></a></small>
         </td>
         <td>
-            <ul>
-                <span title="<?= $this->escape($track->getTrackContent()) ?>"><?= $this->escape($track_ways[$track->getWay()]) ?></span>
-            </ul>
+            <span title="<?= $this->escape($track->getTrackContent()) ?>"><?= $this->escape($track_ways[$track->getWay()]) ?></span>
         </td>
 
         <td><?= $this->partial('/helper/counttime.phtml', arraY('time' => $track->getLatestLog()->time)) ?></td>
