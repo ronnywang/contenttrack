@@ -12,12 +12,13 @@ $track_ways = Track::getTrackWays();
             <td>上次追查時間</td>
             <td>追查頻率</td>
             <td>數值</td>
+            <td>追蹤中</td>
             <td>動作</td>
         </tr>
     </thead>
     <tbody>
     <?php foreach (Track::search(1) as $track) { ?>
-    <tr>
+    <tr id="tr-<?= $track->id ?>">
         <td><?= $track->id ?></td>
         <td>
             <div><a href="/?id=<?= $track->id ?>#track-log"><?= $this->escape($track->title) ?></a></div>
@@ -36,6 +37,13 @@ $track_ways = Track::getTrackWays();
                 <li><?= $this->escape(substr($row, 0, 32)) ?></li>
                 <?php } ?>
             </ol>
+        </td>
+        <td>
+            <form method="post" action="/index/toggletrack?id=<?= $track->id ?>">
+                <input type="hidden" name="sToken" value="<?= $this->escape($this->sToken) ?>">
+                <input type="hidden" name="return_to" value="tr-<?= $track->id ?>">
+                <button type="submit"><?= ($track->isTrackBy($this->user)) ? '追蹤中' : '未追蹤' ?></button>
+            </form>
         </td>
         <td>
             <a href="/?id=<?= $track->id ?>">修改</a>

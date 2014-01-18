@@ -49,7 +49,8 @@ class IndexController extends Pix_Controller
             ))->delete();
         }
 
-        return $this->redirect('/?id=' . $track->id . '#track-user');
+        $target = strval($_POST['return_to']) ?: 'track-user';
+        return $this->redirect('/?id=' . $track->id . '#' . urlencode($target));
     }
     public function edittrackAction()
     {
