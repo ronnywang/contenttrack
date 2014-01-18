@@ -176,7 +176,7 @@ class Track extends Pix_Table
                 }
                 $user_logs[$track_user->user_id][] = array(
                     'track' => $track,
-                    'content' => $content,
+                    'content' => $log,
                 );
             }
         }
