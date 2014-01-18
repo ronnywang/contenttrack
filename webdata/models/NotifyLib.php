@@ -2,7 +2,7 @@
 
 class NotifyLib
 {
-    public function alert($title, $body)
+    public function alert($title, $body, $to)
     {
         if (!class_exists('AmazonSES')) {
             define('AWS_DISABLE_CONFIG_AUTO_DISCOVERY', true);
@@ -20,7 +20,7 @@ class NotifyLib
         $ses = new AmazonSES();
         //$ses->set_region(AmazonSES::REGION_TOKYO);
         $ret = $ses->send_email(
-            getenv('SES_MAIL'),
+            $to,
             array(
                 'ToAddresses' => array(getenv('SES_MAIL')),
             ),
