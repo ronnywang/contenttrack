@@ -197,6 +197,7 @@ class Track extends Pix_Table
                 $content .= "==============================================\n";
             }
 
+            error_log('mail to: ' . $mail);
             NotifyLib::alert(
                 $title,
                 $content,
