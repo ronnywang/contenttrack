@@ -20,9 +20,9 @@ class NotifyLib
         $ses = new AmazonSES();
         //$ses->set_region(AmazonSES::REGION_TOKYO);
         $ret = $ses->send_email(
-            $to,
+            getenv('SES_MAIL'),
             array(
-                'ToAddresses' => array(getenv('SES_MAIL')),
+                'ToAddresses' => array($to),
             ),
             array(
                 'Subject.Data' => $title,
