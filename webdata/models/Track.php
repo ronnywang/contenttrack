@@ -41,7 +41,9 @@ class TrackRow extends Pix_Table_Row
                 'content' => $content,
             ));
 
-            return $content;
+            $log = TrackLog::search(array('track_id' => $this->id, 'content' => $content))->order('time DESC')->first();
+
+            return array($content, $log->time);
         }
         return false;
     }
@@ -176,7 +178,8 @@ class Track extends Pix_Table
                 }
                 $user_logs[$track_user->user_id][] = array(
                     'track' => $track,
-                    'content' => $log,
+                    'content' => $log[0],
+                    'last_hit' => $log[1],
                 );
             }
         }
@@ -192,6 +195,9 @@ class Track extends Pix_Table
                 $content .= "標題: {$log['track']->title}\n";
                 $content .= "原始網址: {$log['track']->url}\n";
                 $content .= "紀錄網址: http://contenttrack.ronny.tw/?id={$log['track']->id}#track-logs\n";
+                if ($log['last_hit']) {
+                    $content .= "與 " . date('Y/m/d H:i:s', $log['last_hit']) . " 內容相同\n";
+                }
                 $log['content'] = json_encode(json_decode($log['content']), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
                 $content .= "內容: {$log['content']}\n";
                 $content .= "==============================================\n";
