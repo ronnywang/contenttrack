@@ -35,13 +35,13 @@ class TrackRow extends Pix_Table_Row
     public function updateLog($content)
     {
         if ($content != $this->getLatestLog()->content) {
+            $log = TrackLog::search(array('track_id' => $this->id, 'content' => $content))->order('time DESC')->first();
+
             TrackLog::insert(array(
                 'track_id' => $this->id,
                 'time' => time(),
                 'content' => $content,
             ));
-
-            $log = TrackLog::search(array('track_id' => $this->id, 'content' => $content))->order('time DESC')->first();
 
             return array($content, $log->time);
         }
