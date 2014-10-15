@@ -87,13 +87,14 @@ class TrackRow extends Pix_Table_Row
                 return array(
                     'http_code' => $obj['http_code'],
                     'status' => 'notfound',
+                    'content' => in_array($obj['http_code'], array(301, 302)) ? $obj['content'] : '',
                 );
             }
 
             return array(
                 'http_code' => $obj['http_code'],
                 'status' => 'found',
-                'data' => $matches[1],
+                'content' => in_array($obj['http_code'], array(301, 302)) ? $obj['content'] : $matches[1],
             );
         case 3: // 檔案 MD5
             $curl = curl_init();
@@ -114,6 +115,7 @@ class TrackRow extends Pix_Table_Row
                 'status' => filesize($filepath) ? 'success' : 'failed',
                 'md5' => md5_file($filepath), 
                 'size' => filesize($filepath),
+                'redirect_url' => in_array($info['http_code'], array(301, 302)) ? $info['redirect_url'] : '',
             );
             if ($this->getTrackContent()) {
                 $ret['content'] = file_get_contents($filepath);
