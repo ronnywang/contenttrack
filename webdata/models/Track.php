@@ -69,6 +69,9 @@ class TrackRow extends Pix_Table_Row
         curl_setopt($curl, CURLOPT_URL, $this->url);
         $content = curl_exec($curl);
         $info = curl_getinfo($curl);
+        if (in_array($info['http_code'], array(301, 302))) {
+            $content = $info['redirect_url'];
+        }
         return array(
             'http_code' => $info['http_code'],
             'content' => $content,
