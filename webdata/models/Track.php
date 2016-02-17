@@ -203,7 +203,7 @@ class Track extends Pix_Table
                 $content .= "標題: {$log['track']->title}\n";
                 $content .= "原始網址: {$log['track']->url}\n";
                 $content .= "紀錄網址: https://contenttrack.ronny.tw/?id={$log['track']->id}#track-logs\n";
-                if ($log['last_hit']) {
+                if ($log['last_hit'] and $log['last_hit'] > time() - 180 * 86400) {
                     $content .= "與 " . date('Y/m/d H:i:s', $log['last_hit']) . " 內容相同\n";
                 }
                 $log['content'] = json_encode(json_decode($log['content']), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
