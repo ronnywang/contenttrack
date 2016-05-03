@@ -85,7 +85,7 @@ class TrackRow extends Pix_Table_Row
         switch ($this->getWay()) {
         case 2: // 追蹤 HTML + regex
             $obj = $this->getHTML();
-            if (!preg_match($this->getTrackContent(), $obj['content'], $matches)) {
+            if (!preg_match_all($this->getTrackContent(), $obj['content'], $matches)) {
                 return array(
                     'http_code' => $obj['http_code'],
                     'status' => 'notfound',
@@ -96,7 +96,7 @@ class TrackRow extends Pix_Table_Row
             return array(
                 'http_code' => $obj['http_code'],
                 'status' => 'found',
-                'content' => in_array($obj['http_code'], array(301, 302)) ? $obj['content'] : $matches[1],
+                'content' => in_array($obj['http_code'], array(301, 302)) ? $obj['content'] : implode('', $matches[1]),
             );
         case 3: // 檔案 MD5
             $curl = curl_init();
