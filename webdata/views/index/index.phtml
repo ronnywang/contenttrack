@@ -68,8 +68,19 @@ $track_ways = Track::getTrackWays();
         <?php } ?>
     </select><br>
     追蹤內容：<input type="text" name="track-content" value="<?= $this->escape($this->track ? $this->track->getTrackContent() : '') ?>">
+    <button type="submit" id="preview">預覽</button>
     <button type="submit">送出</button>
+    <div id="preview-result"></div>
 </form>
+<script>
+$('#preview').click(function(e){
+    e.preventDefault();
+    $.get('/index/preview?url=' + encodeURIComponent($('[name="url"]').val()) + '&track_content=' + encodeURIComponent($('[name="track-content"]').val()) , function(ret){
+        $('#preview-result').text(JSON.stringify(ret));
+    }, 'json');
+});
+</script>
+<div id="preview-result"></div>
 <?php if ($this->track) { ?>
 <hr>
 <h1>追蹤人</h1>
