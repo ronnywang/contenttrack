@@ -132,4 +132,21 @@ class IndexController extends Pix_Controller
         Track::updateTrack();
         return $this->redirect('/');
     }
+
+    public function previewAction()
+    {
+        $url = $_REQUEST['url'];
+        $track_content = $_GET['track_content'];
+
+        if (!preg_match_all($track_content, file_get_contents($url), $matches)) {
+            return $this->json(array(
+                'status' => 'notfound',
+                'content' => '',
+            ));
+        }
+        return $this->json(array(
+            'status' => 'found',
+            'content' => implode('', $matches[1]),
+        ));
+    }
 }
