@@ -64,23 +64,7 @@ class TrackRow extends Pix_Table_Row
 
     public function getHTML()
     {
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($curl, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
-        curl_setopt($curl, CURLOPT_URL, $this->url);
-        $content = curl_exec($curl);
-        $info = curl_getinfo($curl);
-        if (in_array($info['http_code'], array(301, 302))) {
-            $content = $info['redirect_url'];
-        }
-        if (preg_match('#CONTENT=["\']text/html;\s*charset=big5#i', $content)) {
-            $content = iconv('big5', 'utf-8//ignore', $content);
-        }
-        return array(
-            'http_code' => $info['http_code'],
-            'content' => $content,
-        );
+        return Track::getHTML($this->url);
     }
 
     public function trackContent()
@@ -221,5 +205,26 @@ class Track extends Pix_Table
                 $mail
             );
         }
+    }
+
+    public function getHTML($url)
+    {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+        curl_setopt($curl, CURLOPT_URL, $url);
+        $content = curl_exec($curl);
+        $info = curl_getinfo($curl);
+        if (in_array($info['http_code'], array(301, 302))) {
+            $content = $info['redirect_url'];
+        }
+        if (preg_match('#CONTENT=["\']text/html;\s*charset=big5#i', $content)) {
+            $content = iconv('big5', 'utf-8//ignore', $content);
+        }
+        return array(
+            'http_code' => $info['http_code'],
+            'content' => $content,
+        );
     }
 }

@@ -137,8 +137,9 @@ class IndexController extends Pix_Controller
     {
         $url = $_REQUEST['url'];
         $track_content = $_GET['track_content'];
-
-        if (!preg_match_all($track_content, file_get_contents($url), $matches)) {
+        
+        $obj = Track::getHTML($url);
+        if (!preg_match_all($track_content, $obj['content'], $matches)) {
             return $this->json(array(
                 'status' => 'notfound',
                 'content' => '',
