@@ -74,6 +74,9 @@ class TrackRow extends Pix_Table_Row
         if (in_array($info['http_code'], array(301, 302))) {
             $content = $info['redirect_url'];
         }
+        if (preg_match('#CONTENT=["\']text/html;\s*charset=big5#i', $content)) {
+            $content = iconv('big5', 'utf-8//ignore', $content);
+        }
         return array(
             'http_code' => $info['http_code'],
             'content' => $content,
