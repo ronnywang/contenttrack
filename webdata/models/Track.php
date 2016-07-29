@@ -181,12 +181,12 @@ class Track extends Pix_Table
 
         foreach ($user_logs as $user_id => $logs) {
             $title = 'ContentTrack 發現網頁變動 ' . count($logs) . ' 筆';
-            $content = '';
             if (!$user = User::find(intval($user_id))) {
                 continue;
             }
             $mail = substr($user->user_name, 9);
             foreach ($logs as $log) {
+                $content = '';
                 $content .= "標題: {$log['track']->title}\n";
                 $content .= "原始網址: {$log['track']->url}\n";
                 $content .= "紀錄網址: https://contenttrack.ronny.tw/?id={$log['track']->id}#track-logs\n";
@@ -195,15 +195,12 @@ class Track extends Pix_Table
                 }
                 $log['content'] = json_encode(json_decode($log['content']), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
                 $content .= "內容: {$log['content']}\n";
-                $content .= "==============================================\n";
+                NotifyLib::alert(
+                    $title,
+                    $content,
+                    $mail
+                );
             }
-
-            error_log('mail to: ' . $mail);
-            NotifyLib::alert(
-                $title,
-                $content,
-                $mail
-            );
         }
     }
 
