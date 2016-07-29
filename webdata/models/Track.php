@@ -180,12 +180,12 @@ class Track extends Pix_Table
         }
 
         foreach ($user_logs as $user_id => $logs) {
-            $title = 'ContentTrack 發現網頁變動 ' . count($logs) . ' 筆';
             if (!$user = User::find(intval($user_id))) {
                 continue;
             }
             $mail = substr($user->user_name, 9);
             foreach ($logs as $log) {
+                $title = 'ContentTrack 發現網頁變動 - ' . $log['track']->title;
                 $content = '';
                 $content .= "標題: {$log['track']->title}\n";
                 $content .= "原始網址: {$log['track']->url}\n";
