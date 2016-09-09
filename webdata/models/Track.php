@@ -131,6 +131,9 @@ class Track extends Pix_Table
         $this->_columns['options'] = array('type' => 'text');
         // 0-每日, 1-每五分鐘
         $this->_columns['track_period'] = array('type' => 'tinyint');
+
+        $this->_relations['users'] = array('rel' => 'has_many', 'type' => 'TrackUser', 'foreign_key' => 'track_id', 'delete' => true);
+        $this->_relations['logs'] = array('rel' => 'has_many', 'type' => 'TrackLog', 'foreign_key' => 'track_id', 'delete' => true);
     }
 
     public static function getTrackPeriods()
