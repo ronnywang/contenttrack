@@ -24,6 +24,10 @@ class TrackRow extends Pix_Table_Row
             $time = 6 * 3600;
         } elseif (3 == $this->track_period) { // 每小時
             $time = 3600;
+        } elseif (4 == $this->track_period) { // 每分鐘
+            $time = 60;
+        } elseif (5 == $this->track_period) { // 停止
+            return false;
         }
 
         return time() > $this->tracked_at + $time;
@@ -143,6 +147,8 @@ class Track extends Pix_Table
             1 => '每五分鐘',
             2 => '每六小時',
             3 => '每小時',
+            4 => '每分鐘',
+            5 => '停用',
         );
     }
 
