@@ -66,6 +66,12 @@ class TrackRow extends Pix_Table_Row
         return $options->track_way;
     }
 
+    public function getFollow301()
+    {
+        $options = json_decode($this->options);
+        return property_exists($options, 'follow_301') ? $options->follow_301 : false;
+    }
+
     public function getHTML()
     {
         return Track::getHTML($this->url);
@@ -95,6 +101,9 @@ class TrackRow extends Pix_Table_Row
             curl_setopt($curl, CURLOPT_URL, $this->url);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+            if ($this->getFollow301()) {
+                curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true); 
+            }
             curl_setopt($curl, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
             curl_setopt($curl, CURLOPT_FILE, $download_fp);
             curl_exec($curl);
@@ -217,6 +226,9 @@ class Track extends Pix_Table
     {
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        if ($this->getFollow301()) {
+            curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true); 
+        }
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($curl, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
         curl_setopt($curl, CURLOPT_HTTPHEADER, array(

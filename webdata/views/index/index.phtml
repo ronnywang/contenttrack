@@ -67,7 +67,12 @@ $track_ways = Track::getTrackWays();
         <option value="<?= $id ?>"<?= ($this->track and $this->track->getWay() == $id) ? ' selected="selected"' : '' ?>><?= $this->escape($name) ?></option>
         <?php } ?>
     </select><br>
-    追蹤內容：<input type="text" name="track-content" value="<?= $this->escape($this->track ? $this->track->getTrackContent() : '') ?>">
+    追蹤內容：<input type="text" name="track-content" value="<?= $this->escape($this->track ? $this->track->getTrackContent() : '') ?>"><br>
+    跟隨302、301：<select name="follow_301">
+        <option value="0">不跟隨</option>
+        <option value="1" <?= ($this->track and $this->track->getFollow301()) ? ' selected="selected"' : '' ?>>跟隨</option>
+    </select>
+
     <button type="submit" id="preview">預覽</button>
     <button type="submit">送出</button>
     <div id="preview-result"></div>

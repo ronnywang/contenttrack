@@ -75,6 +75,7 @@ class IndexController extends Pix_Controller
             'options' => json_encode(array(
                 'track_way' => intval($_POST['track-way']),
                 'track_content' => strval($_POST['track-content']),
+                'follow_301' => intval($_POST['follow_301']),
             )),
         ));
         $new_values = $track->toArray();
@@ -115,6 +116,7 @@ class IndexController extends Pix_Controller
             'options' => json_encode(array(
                 'track_way' => intval($_POST['track-way']),
                 'track_content' => strval($_POST['track-content']),
+                'follow_301' => intval($_POST['follow_301']),
             )),
         ));
         return $this->redirect('/');
