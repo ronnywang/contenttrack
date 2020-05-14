@@ -105,6 +105,7 @@ class TrackRow extends Pix_Table_Row
                 curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true); 
             }
             curl_setopt($curl, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+            curl_setopt($curl, CURLOPT_ENCODING, '');
             curl_setopt($curl, CURLOPT_FILE, $download_fp);
             curl_exec($curl);
             $info = curl_getinfo($curl);
@@ -229,6 +230,7 @@ class Track extends Pix_Table
         if ($this->getFollow301()) {
             curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true); 
         }
+        curl_setopt($curl, CURLOPT_ENCODING, '');
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($curl, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
         curl_setopt($curl, CURLOPT_HTTPHEADER, array(
