@@ -74,7 +74,7 @@ class TrackRow extends Pix_Table_Row
 
     public function getHTML()
     {
-        return Track::getHTML($this->url);
+        return Track::getHTML($this->url, $this->getFollow301());
     }
 
     public function trackContent()
@@ -223,11 +223,11 @@ class Track extends Pix_Table
         }
     }
 
-    public function getHTML($url)
+    public function getHTML($url, $follow301 = true)
     {
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        if ($this->getFollow301()) {
+        if ($follow301) {
             curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true); 
         }
         curl_setopt($curl, CURLOPT_ENCODING, '');
