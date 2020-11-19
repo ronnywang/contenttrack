@@ -202,7 +202,6 @@ class Track extends Pix_Table
             if (!$user = User::find(intval($user_id))) {
                 continue;
             }
-            $mail = substr($user->user_name, 9);
             foreach ($logs as $log) {
                 $title = 'ContentTrack 發現網頁變動 - ' . $log['track']->title;
                 $content = '';
@@ -214,7 +213,7 @@ class Track extends Pix_Table
                 }
                 $log['content'] = json_encode(json_decode($log['content']), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
                 $content .= "內容: {$log['content']}\n";
-                $this->notify($title, $content);
+                $user->notify($title, $content);
             }
         }
     }
