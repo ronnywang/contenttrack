@@ -2,7 +2,7 @@
 
 class UserRow extends Pix_Table_Row
 {
-    public function notify()
+    public function notify($title, $content)
     {
         $uc = json_decode(UserConfig::find($this->user_id)->config);
         if ($uc->slack_token) {
