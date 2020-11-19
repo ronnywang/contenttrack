@@ -214,11 +214,7 @@ class Track extends Pix_Table
                 }
                 $log['content'] = json_encode(json_decode($log['content']), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
                 $content .= "內容: {$log['content']}\n";
-                NotifyLib::alert(
-                    $title,
-                    $content,
-                    $mail
-                );
+                $this->notify($title, $content);
             }
         }
     }
