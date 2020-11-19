@@ -1,0 +1,14 @@
+<?php
+$config = json_decode(UserConfig::find($this->user->user_id)->config);
+?>
+<?= $this->partial('common/header.phtml', $this) ?>
+增加 slack 通知:
+<form method="post" action="?method=addslack">
+    <input type="hidden" name="sToken" value="<?= $this->sToken ?>">
+    Token: <input type="text" name="token" value="<?= htmlspecialchars($config->slack_token) ?>"><br>
+    頻道: <input type="text" name="channel" value="<?= htmlspecialchars($config->slack_channel) ?>"><br>
+    <button type="submit">增加</button>
+</form>
+
+
+<?= $this->partial('common/footer.phtml', $this) ?>

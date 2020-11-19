@@ -152,4 +152,30 @@ class IndexController extends Pix_Controller
             'content' => implode('', $matches[1]),
         ));
     }
+
+    public function configAction()
+    {
+        if (!$uc = UserConfig::find($this->view->user->user_id)) {
+            $uc = UserConfig::insert(array(
+                'user_id' => $this->view->user->user_id,
+                'config' => '{}',
+            ));
+        }
+
+        if ($_POST) {
+            if ($_POST['sToken'] != $this->view->sToken) {
+                return $this->redirect('/');
+            }
+
+            if ($_GET['method'] == 'addslack') {
+                $config = json_decode($uc->config);
+                $config->slack_token = strval($_POST['token']);
+                $config->slack_channel = strval($_POST['channel']);
+                $uc->update(array(
+                    'config' => json_encode($config),
+                ));
+            }
+            return $this->alert("success", "/index/config");
+        }
+    }
 }
