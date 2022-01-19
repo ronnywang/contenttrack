@@ -182,7 +182,7 @@ class Track extends Pix_Table
             $track->update(array(
                 'tracked_at' => time(),
             ));
-            $log = $track->updateLog(json_encode($track->trackContent()));
+            $log = $track->updateLog(json_encode($track->trackContent(), JSON_UNESCAPED_UNICODE));
             if (false === $log) {
                 continue;
             }
